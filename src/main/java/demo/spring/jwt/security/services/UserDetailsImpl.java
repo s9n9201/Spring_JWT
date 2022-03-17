@@ -1,4 +1,4 @@
-package demo.spring.jwt.service;
+package demo.spring.jwt.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import demo.spring.jwt.entity.User;

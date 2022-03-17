@@ -1,4 +1,4 @@
-package demo.spring.jwt.service;
+package demo.spring.jwt.security.services;
 
 import demo.spring.jwt.entity.User;
 import demo.spring.jwt.repository.UserRepository;
