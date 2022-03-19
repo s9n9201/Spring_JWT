@@ -43,14 +43,18 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        System.out.println("do AuthController signin！");
         Authentication authentication=authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()) );
-
+        System.out.println("--------");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt=jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails=(UserDetailsImpl) authentication.getPrincipal();
         List<String> roles=userDetails.getAuthorities().stream()
-                .map(item->item.getAuthority())
+                .map(item->{
+                    System.out.println("Item > "+item.toString());
+                    return item.getAuthority();
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt
@@ -75,6 +79,7 @@ public class AuthController {
         User user=new User(signupRequest.getUsername()
                             ,signupRequest.getEmail()
                             ,encoder.encode(signupRequest.getPassword()));
+
         Set<String> strRoles=signupRequest.getRole();
         Set<Role> roles=new HashSet<>();
         if (strRoles==null) {
@@ -87,19 +92,10 @@ public class AuthController {
                 switch (role) {
                     case "admin":
                         tmpERol=ERole.ROLE_ADMIN; break;
-//                        Role adminRole=roleRepository.findByName(ERole.ROLE_ADMIN)
-//                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
-//                        roles.add(adminRole); break;
                     case "mod":
                         tmpERol=ERole.ROLE_MODERATOR; break;
-//                        Role modRole=roleRepository.findByName(ERole.ROLE_MODERATOR)
-//                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
-//                        roles.add(modRole); break;
                     default:
                         tmpERol=ERole.ROLE_USER; break;
-//                        Role userRole=roleRepository.findByName(ERole.ROLE_USER)
-//                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
-//                        roles.add(userRole); break;
                 }
                 Role userRole=roleRepository.findByName(tmpERol)
                         .orElseThrow(()->new RuntimeException("Error: Role is not found"));

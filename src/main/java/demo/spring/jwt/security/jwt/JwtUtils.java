@@ -19,6 +19,7 @@ public class JwtUtils {
     private int jwExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
+        System.out.println("do JWT generateJwtToken！");
         UserDetailsImpl userPrincipal=(UserDetailsImpl) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
