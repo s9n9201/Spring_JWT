@@ -69,12 +69,12 @@ public class AuthController {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Username is already taken!"));
         }
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Email is already in use!"));
         }
         User user=new User(signupRequest.getUsername()
                             ,signupRequest.getEmail()
@@ -84,7 +84,7 @@ public class AuthController {
         Set<Role> roles=new HashSet<>();
         if (strRoles==null) {
             Role userRole=roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(()-> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(()-> new RuntimeException("Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role->{
@@ -98,7 +98,7 @@ public class AuthController {
                         tmpERol=ERole.ROLE_USER; break;
                 }
                 Role userRole=roleRepository.findByName(tmpERol)
-                        .orElseThrow(()->new RuntimeException("Error: Role is not found"));
+                        .orElseThrow(()->new RuntimeException("Role is not found"));
                 roles.add(userRole);
             });
         }
