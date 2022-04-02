@@ -3,6 +3,7 @@ package demo.spring.jwt.entity;
 import javax.persistence.*;
 import java.time.Instant;
 
+@Entity(name="refreshtoken")
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
