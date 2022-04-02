@@ -21,10 +21,10 @@ public class JwtUtils {
 
     public String generateJwtToken(UserDetailsImpl userPrincipal) {
         System.out.println("do JWT generateJwtToken！");
-        return generateTokenfromUsername(userPrincipal.getUsername());
+        return generateTokenFromUsername(userPrincipal.getUsername());
     }
 
-    public String generateTokenfromUsername(String username) {
+    public String generateTokenFromUsername(String username) {
         return Jwts.builder().setSubject(username).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime()+jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
